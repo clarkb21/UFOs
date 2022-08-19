@@ -29,3 +29,21 @@ function buildTable(data) {
     });
 }
 
+// Build a function to filter table data
+function handleClick() {
+    let date = d3.select("#datetime").property("value");
+    let filteredData = tableData;
+    //Create if statement for date as a filter
+    if (date) {
+        filteredData = filteredData.filter(row => row.datetime === date);
+    };
+    //Rebuild the table using the filtered data
+    buildTable(filteredData);
+}
+
+d3.selectAll("#filter-btn").on("click", handleClick);
+
+// We want table to load as soon as webpage does
+buildTable(tableData); 
+
+
