@@ -1,49 +1,90 @@
-// Import the data from data.js
+// from data.js
 const tableData = data;
 
-//Referencce the HTML table using d3
+// get table references
 var tbody = d3.select("tbody");
 
-//Simple example function
-// function printHello(name) {
-//     console.log("Hello" + name);
-// }
-
-// Build the function to add UFO sightings to a table
 function buildTable(data) {
-    //Clear the existing data and filters
-    tbody.html("");
+  // First, clear out any existing data
+  tbody.html("");
 
-    //Loop through each object in the data
-    // and append a row and cells for each value
-    data.forEach((dataRow) => {
-       let row = tbody.append("tr");
+  // Next, loop through each object in the data
+  // and append a row and cells for each value in the row
+  data.forEach((dataRow) => {
+    // Append a row to the table body
+    let row = tbody.append("tr");
 
-       // Loop through each field in the dataRow and add
-       // each value as a table cell (td)
-       Object.values(dataRow).forEach((val) => {
-            let cell = row.append("td");
-            cell.text(val);
-        }
-       ); 
+    // Loop through each field in the dataRow and add
+    // each value as a table cell (td)
+    Object.values(dataRow).forEach((val) => {
+      let cell = row.append("td");
+      cell.text(val);
     });
+  });
 }
 
-// Build a function to filter table data
-function handleClick() {
+// 1. Create a variable to keep track of all the filters as an object.
+var filters = {};
+
+// 3. Use this function to update the filters. 
+function updateFilters() {
     let date = d3.select("#datetime").property("value");
-    let filteredData = tableData;
+    let city = d3.select("#city").property("value").toLowerCase();
+    let state = d3.select("#state").property("value").toLowerCase();
+    let country = d3.select("#country").property("value").toLowerCase();
+    let shape = d3.select("#shape").property("value").toLowerCase();
+   
     //Create if statement for date as a filter
     if (date) {
-        filteredData = filteredData.filter(row => row.datetime === date);
+        filters.datetime = date;
     };
-    //Rebuild the table using the filtered data
+    //Create if statement for city as a filter
+    if (city) {
+        filters.city = city;
+    }
+    //Create if statement for state as a filter
+    if (state) {
+        filters.state = state;
+    }
+    //Create if statement for country as a filter
+    if (country) {
+        filters.country = country;
+    }
+    //Create if statement for shape as a filter
+    if (shape) {
+        filters.shape = shape;
+    }
+ 
+    
+
+   
+    // 6. Call function to apply all filters and rebuild the table
+    filterTable();
+  
+  }
+  
+  // 7. Use this function to filter the table when data is entered.
+  function filterTable() {
+  
+    // 8. Set the filtered data to the tableData.
+    let filteredData = tableData;
+  
+    // 9. Loop through all of the filters and keep any data that
+    // matches the filter values
+    Object.entries(filters).forEach(
+        ([key, value]) => {
+            if (key,value) {
+                filteredData = filteredData.filter(row => row[key] === value);
+            }
+        }
+    )
+  
+    // 10. Finally, rebuild the table using the filtered data
     buildTable(filteredData);
-}
-
-d3.selectAll("#filter-btn").on("click", handleClick);
-
-// We want table to load as soon as webpage does
-buildTable(tableData); 
-
-
+  }
+  
+  // 2. Attach an event to listen for changes to each filter
+  d3.selectAll("input").on("change", updateFilters);
+  
+  // Build the table when the page loads
+  buildTable(tableData);
