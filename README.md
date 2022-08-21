@@ -33,6 +33,15 @@
 
 
 ## Summary
+- The unfiltered table holds a large amount of data. It is unreasonable for most users to read through the entire table. 
+- Adding filters to get specific results helps users gather the information they desire more quickly.
+
+### Possible Drawbacks
+- One possible drawback from this webpage is that there are no hyperlinks to click on any of the rows in the table. Users will be able to filter the table, but not reach any of those articles. 
+
+### Future Development
+- To help with the drawback, some future development could be to have additional resources that align with the data in the table. Users may be able to click on the entries and read more in-depth articles regarding each UFO sighting. 
+- Another update to the webpage could be to allow users to filter for multiple states or cities with one search. The existing code can be refactored to have another conditional (OR) in place so that it can look for (state 1) OR (state 2) and pull up those results in one table. 
  
 
 
